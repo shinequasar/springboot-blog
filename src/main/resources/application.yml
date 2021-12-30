@@ -1,6 +1,41 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+#    username: cos
+#    password: cos1234
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update #update(이후), create(최초만. 기존테이블 drop하고 새로aksemfa), none 등이 있음
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #변수명 그대로 테이블에 넣어줌
+      use-new-id-generator-mappings: false #jpa의 기본 전략을 따라가지 X
+    show-sql: true
+    properties:
+      hibernate.format_sql: true #보기예쁘게
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
