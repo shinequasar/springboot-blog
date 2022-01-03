@@ -4,23 +4,42 @@ import com.example.myblogproject.model.RoleType;
 import com.example.myblogproject.model.User;
 import com.example.myblogproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 @RestController
 public class DummyControllerTest {
 
     @Autowired //의존성 주입
     private UserRepository userRepository;
+
+    @Transactional //함수 종료시 자동 commit -> save필요없음.
+    @PutMapping("/dummy/user/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User requestUser){ //Json데이터를 요청
+        User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("해당 정보수정에 실패하였습니다.")); //영속화됨
+        user.setEmail(requestUser.getEmail());
+        user.setPassword(requestUser.getPassword());
+        //userRepository.save(user);
+        return user;
+    }
+
+    @DeleteMapping("/dummy/user/{id}")
+    public String deleteUser(@PathVariable Long id){
+        try{
+            userRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){  //귀찮으면 모체인 Exception 걸어도 됨.
+            return "삭제에 실패하였습니다. 해당 Id는 존재하지 않습니다.";
+        }
+
+        return "삭제되었습니다. Id : "+id;
+    }
 
     @GetMapping("/dummy/users")
     public List<User> list(){
