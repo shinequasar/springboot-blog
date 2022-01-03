@@ -17,16 +17,9 @@ public class DummyControllerTest {
     @Autowired //의존성 주입
     private UserRepository userRepository;
 
-    @GetMapping("/dummy/user/{id}")
+    @GetMapping("/dummy/user/{id}") //만약 id 파라메터가 잘못되어 null이 반환되면 X.,Optional로 가져와 판단해 리턴하기
     public User detail(@PathVariable Long id){
-        //만약 id 파라메터가 잘못되어 null이 반환되면 X.
-        //Optional로 가져와 판단해 리턴하기
-        User user = userRepository.findById(id).orElseThrow(new Supplier<IllegalArgumentException>(){
-            @Override
-            public IllegalArgumentException get() {
-                return new IllegalArgumentException("해당 유저는 존재하지 않습니다. Id : " +id);
-            }
-        });
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 유저는 존재하지 않습니다. Id : " +id));
         return user;
     }
 
