@@ -19,7 +19,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Want blog project",
-                "description",
+                "내 블로그만들기 프로젝트 API 문서",
                 "0.01",
                 "https://github.com/shinequasar/springboot-blog.git",
                 new Contact("Contact Me", "https://github.com/shinequasar/springboot-blog.git", "shinequasar@naver.com"),
