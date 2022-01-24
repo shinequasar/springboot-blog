@@ -30,6 +30,11 @@ public class BoardController {
         return "board/detail";
     }
 
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable Long id, Model model) throws IllegalAccessException {
+        model.addAttribute("board", boardService.글상세보기(id));
+        return "board/updateForm";
+    }
 
     // user 권한이 필요
     @GetMapping("/board/saveForm")

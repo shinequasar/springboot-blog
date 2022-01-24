@@ -1,12 +1,14 @@
 let index={
     init:function(){
-        $("#btn-board-save").on("click",()=>{ //function(){}, ()=> this를 바인딩 하기 위해서
+        $("#btn-save").on("click",()=>{ //function(){}, ()=> this를 바인딩 하기 위해서
             this.save();
         }),
-        $("#btn-board-delete").on("click",()=>{
+        $("#btn-delete").on("click",()=>{
                 this.delteById();
+        }),
+        $("#btn-update").on("click",()=>{
+            this.update();
         });
-
     },
 
     save:function (){
@@ -30,7 +32,7 @@ let index={
         });
     },
     delteById:function (){
-        var id = $("#id").text();
+        let id = $("#id").text();
         $.ajax({
             type:"DELETE",
             url:"/api/board/"+id,
@@ -38,6 +40,27 @@ let index={
         }).done(function(resp){
             alert("삭제가 완료되었습니다.");
             //console.log(resp);
+            location.href = "/";
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
+    },
+    update:function (){
+        let id = $("#id").val();
+
+        let data = {
+            title:$("#title").val(),
+            content:$("#content").val(),
+        };
+
+        $.ajax({
+            type:"PUT",
+            url:"/api/board/"+id,
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json"
+        }).done(function(resp){
+            alert("수정이 완료되었습니다.");
             location.href = "/";
         }).fail(function(error){
             alert(JSON.stringify(error));

@@ -32,7 +32,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #변수명 그대로 테이블에 넣어줌
       use-new-id-generator-mappings: false #jpa의 기본 전략을 따라가지 X
-    show-sql: true
+    #show-sql: true  //콘솔에 sql 쿼리문을 보여줌
     properties:
       hibernate.format_sql: true #보기예쁘게
 
